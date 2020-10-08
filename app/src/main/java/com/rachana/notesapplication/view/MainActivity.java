@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private CoordinatorLayout coordinatorLayout;
     private RecyclerView recyclerView;
     private TextView noNotesView;
-
     private DatabaseHelper db;
 
     @Override
@@ -40,13 +39,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        coordinatorLayout = findViewById(R.id.coordinator_layout);
-        recyclerView = findViewById(R.id.recycler_view);
-        noNotesView = findViewById(R.id.empty_notes_view);
+        //Task #1
+        //TODO Initialize the following-
+        //  coordinatorLayout
+        //  recyclerView
+        //  noNotesView
+        //Go to Note class for Task#2
 
-        db = new DatabaseHelper(this);
+        //
+        //TODO Initialize DatabaseHelper class object
+        //  db
 
+        //adding all notes to noteslist
         notesList.addAll(db.getAllNotes());
+
+        //recyclerview I hope you know this by now
+        mAdapter = new NotesAdapter(this, notesList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+
+        toggleEmptyNotes();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,19 +70,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mAdapter = new NotesAdapter(this, notesList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
 
-        toggleEmptyNotes();
 
-        /**
-         * On long press on RecyclerView item, open alert dialog
-         * with options to choose
-         * Edit and Delete
-         * */
+//      On long press on RecyclerView item, open alert dialog with options to choose Edit and Delete
+
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,
                 recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -110,16 +115,13 @@ public class MainActivity extends AppCompatActivity {
      * item in the list by its position
      */
     private void updateNote(String note, int position) {
-        Note n = notesList.get(position);
-        // updating note text
-        n.setNote(note);
+        //Task #4
+        //TODO - initialize a Note object with the note at position using notesList.get(position)
+        //  set the content of the new note obtained to the old note in the parameters
+        //  call db.update
+        //  add the oldNote back to the noteList at the same position as before using notesList.set(position, oldNote)
+        //  refresh the list using notifyItemChanged(position) of the adapter
 
-        // updating note in db
-        db.updateNote(n);
-
-        // refreshing the list
-        notesList.set(position, n);
-        mAdapter.notifyItemChanged(position);
 
         toggleEmptyNotes();
     }

@@ -6,12 +6,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.rachana.notesapplication.database.model.Note;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+
+//Task #3a
+//TODO extend this class from SQLiteOpenHelper
+public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -19,30 +25,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Database Name
     private static final String DATABASE_NAME = "notes_db";
 
+    //TODO constructor here..
 
-    public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
 
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        // create notes table
         db.execSQL(Note.CREATE_TABLE);
     }
 
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + Note.TABLE_NAME);
 
+        //Task #3b
+        //TODO Drop older table if existed
         // Create tables again
         onCreate(db);
     }
 
+    //insert notes
     public long insertNote(String note) {
+
         // get writable database as we want to write data
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -95,15 +99,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
+        //Task #3c
+        //TODO looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Note note = new Note();
-                note.setId(cursor.getInt(cursor.getColumnIndex(Note.COLUMN_ID)));
-                note.setNote(cursor.getString(cursor.getColumnIndex(Note.COLUMN_NOTE)));
-                note.setTimestamp(cursor.getString(cursor.getColumnIndex(Note.COLUMN_TIMESTAMP)));
 
-                notes.add(note);
+
             } while (cursor.moveToNext());
         }
 
@@ -115,33 +116,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public int getNotesCount() {
-        String countQuery = "SELECT  * FROM " + Note.TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-
-        int count = cursor.getCount();
-        cursor.close();
-
-
-        // return count
-        return count;
+        //Task #3d
+        //TODO
+        //  write a raw query and execute it using db.rawquery
+        //  dont forget to close the database
     }
 
-    public int updateNote(Note note) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(Note.COLUMN_NOTE, note.getNote());
-
-        // updating row
-        return db.update(Note.TABLE_NAME, values, Note.COLUMN_ID + " = ?",
-                new String[]{String.valueOf(note.getId())});
+    public long updateNote(Note note) {
+        //Task #3e
+        //TODO -
+        //  initialize db with getWritableDatabase
+        //  initialise object of ContentValues and put the note inside
+        //  call db.update which returns an id that you should return
     }
 
     public void deleteNote(Note note) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(Note.TABLE_NAME, Note.COLUMN_ID + " = ?",
-                new String[]{String.valueOf(note.getId())});
-        db.close();
+        //Task #3f
+        //TODO - db.delete beaches.
+        //Go to MainActivity for Task #4
     }
 }

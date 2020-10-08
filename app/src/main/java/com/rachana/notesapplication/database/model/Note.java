@@ -11,45 +11,14 @@ public class Note {
     private String note;
     private String timestamp;
 
+    //Task #2a
+    //TODO
+    //  Create table SQL query
+    //  public static final String CREATE_TABLE
 
-    // Create table SQL query
-    public static final String CREATE_TABLE =
-            "CREATE TABLE " + TABLE_NAME + "("
-                    + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + COLUMN_NOTE + " TEXT,"
-                    + COLUMN_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
-                    + ")";
+    //Task #2b and #2c
+    //TODO
+    //  Create constructors and getter and settters
+    //Go to DatabaseHelper class for Task #3
 
-    public Note() {
-    }
-
-    public Note(int id, String note, String timestamp) {
-        this.id = id;
-        this.note = note;
-        this.timestamp = timestamp;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
 }
